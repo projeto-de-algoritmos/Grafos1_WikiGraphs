@@ -1,17 +1,19 @@
-const axios = require('axios');
-const cheerio = require('cheerio');
+const {
+  writeMapTitlesFromLinksToFile,
+  fetchUrl,
+  getGraphFromWikiPages,
+} = require('./utils');
 
 const baseURL = 'https://pt.wikipedia.org';
+const graphWikiPages = new Map();
 
 const scrapeData = async () => {
-  const encodedURL = encodeURI(`${baseURL}/wiki/Wikipédia`);
-  const { data } = await axios.get(encodedURL);
-
-  const $ = cheerio.load(data);
-
+  const $ = await fetchUrl(`${baseURL}/wiki/Wikipédia`);
   const links = $('.mw-parser-output a');
 
-  //   console.log(links);
+  getGraphFromWikiPages(links, graphWikiPages);
+
+  writeMapTitlesFromLinksToFile(graphWikiPages);
 };
 
 scrapeData();
