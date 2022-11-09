@@ -1,19 +1,17 @@
-const {
-  writeMapTitlesFromLinksToFile,
-  fetchUrl,
-  getGraphFromWikiPages,
-} = require('./utils');
+const { writeMapToFile, fetchUrl, getGraphFromWikiPages } = require('./utils');
 
 const baseURL = 'https://pt.wikipedia.org';
-const graphWikiPages = new Map();
+const graphTitleWikiPages = new Map();
+const mapTitlesToLinks = new Map();
 
 const scrapeData = async () => {
   const $ = await fetchUrl(`${baseURL}/wiki/Wikipédia`);
   const links = $('.mw-parser-output a');
 
-  getGraphFromWikiPages(links, graphWikiPages);
+  getGraphFromWikiPages(links, graphTitleWikiPages, mapTitlesToLinks);
 
-  writeMapTitlesFromLinksToFile(graphWikiPages);
+  writeMapToFile('graph_titles', graphTitleWikiPages);
+  writeMapToFile('titles_links', mapTitlesToLinks);
 };
 
 scrapeData();

@@ -3,9 +3,9 @@ const cheerio = require('cheerio');
 const fs = require('fs');
 const { resolve } = require('path');
 
-const writeMapTitlesFromLinksToFile = data => {
+const writeMapToFile = (fileName, data) => {
   fs.writeFileSync(
-    resolve(__dirname, 'dump', 'titles_links.json'),
+    resolve(__dirname, 'dump', `${fileName}.json`),
     JSON.stringify(Object.fromEntries(data), null, 4),
   );
 };
@@ -18,17 +18,24 @@ const fetchUrl = async url => {
   return cheerio.load(data);
 };
 
-const getGraphFromWikiPages = (links, graphWikiPages) => {
+const getGraphFromWikiPages = (
+  links,
+  graphTitleWikiPages,
+  mapTitlesToLinks,
+) => {
   links.each((idx, el) => {
-    const text = el.attribs.title;
+    const { title } = el.attribs;
+    const link = el.attribs.href;
 
-    if (text && text[0] !== '[' && !text.includes(':'))
-      graphWikiPages.set(text, []);
+    if (title && title[0] !== '[' && !title.includes(':')) {
+      graphTitleWikiPages.set(title, []);
+      mapTitlesToLinks.set(title, link);
+    }
   });
 };
 
 module.exports = {
-  writeMapTitlesFromLinksToFile,
+  writeMapToFile,
   fetchUrl,
   getGraphFromWikiPages,
 };
