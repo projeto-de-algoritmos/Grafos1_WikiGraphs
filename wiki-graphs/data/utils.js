@@ -13,9 +13,15 @@ const writeMapToFile = (fileName, data) => {
 const fetchUrl = async url => {
   console.log(`Fetching '${encodeURI(url)}' ...`);
 
-  const encodedURL = encodeURI(url);
-  const { data } = await axios.get(encodedURL);
-  return cheerio.load(data);
+  try {
+    const encodedURL = encodeURI(url);
+    const { data } = await axios.get(encodedURL);
+    return cheerio.load(data);
+  } catch (error) {
+    // console.log(error);
+    // console.log(url);
+    return null;
+  }
 };
 
 const getGraphFromWikiPages = (
@@ -23,16 +29,32 @@ const getGraphFromWikiPages = (
   graphTitleWikiPages,
   mapTitlesToLinks,
 ) => {
+  const filteredLinks = [];
+
   links.each((idx, el) => {
     const { title } = el.attribs;
     const link = el.attribs.href;
 
-    if (title && title[0] !== '[' && !title.includes(':')) {
-      graphTitleWikiPages.set(title, []);
+    if (
+      title &&
+      title[0] !== '[' &&
+      !title.includes(':') &&
+      !link.includes('http')
+    ) {
+      graphTitleWikiPages.set(title);
       mapTitlesToLinks.set(title, link);
+      filteredLinks.push(link);
     }
   });
+
+  return filteredLinks;
 };
+
+// const returnGraph = graph => {
+
+//   for
+//   return graph
+// }
 
 module.exports = {
   writeMapToFile,
