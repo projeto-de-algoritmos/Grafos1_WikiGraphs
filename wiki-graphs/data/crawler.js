@@ -1,3 +1,6 @@
+const axios = require('axios');
+const cheerio = require('cheerio');
+
 const { writeMapToFile, fetchUrl, getGraphFromWikiPages } = require('./utils');
 
 let totalLinks = 0;
@@ -40,4 +43,24 @@ const scrapeWiki = async path => {
   await Promise.all(promises);
 };
 
-scrapeInit();
+// scrapeInit();
+
+const scrapeWikiPage = async pageUrl => {
+  const { data } = await axios.get(baseURL + pageUrl);
+  const $ = cheerio.load(data);
+
+  const pageHyperlinks = [];
+  $('#mw-content-text a:not(.image)').each((idx, el) => {
+    const { title, href } = el.attribs;
+
+    if (title && href.startsWith('/wiki/')) {
+      pageHyperlinks.push({ title, link: href });
+    }
+  });
+
+  return pageHyperlinks;
+};
+
+module.exports = {
+  scrapeWikiPage,
+};
