@@ -25,6 +25,7 @@ const fetchUrl = async url => {
 };
 
 const getGraphFromWikiPages = (
+  parentTitle,
   links,
   graphTitleWikiPages,
   mapTitlesToLinks,
@@ -41,13 +42,31 @@ const getGraphFromWikiPages = (
       !title.includes(':') &&
       !link.includes('http')
     ) {
-      graphTitleWikiPages.set(title);
+      if (graphTitleWikiPages.get(title)) {
+        graphTitleWikiPages.set(title, [...graphTitleWikiPages.get(title)]);
+      } else graphTitleWikiPages.set(title, []);
+
+      if (graphTitleWikiPages.get(parentTitle)) {
+        graphTitleWikiPages.set(parentTitle, [
+          ...graphTitleWikiPages.get(parentTitle),
+          title,
+        ]);
+      }
+
       mapTitlesToLinks.set(title, link);
       filteredLinks.push(link);
     }
   });
 
   return filteredLinks;
+};
+
+const getKeyByValue = (map, searchValue) => {
+  for (const [key, value] of map.entries()) {
+    if (value === searchValue) return key;
+  }
+
+  return null;
 };
 
 // const returnGraph = graph => {
@@ -60,4 +79,5 @@ module.exports = {
   writeMapToFile,
   fetchUrl,
   getGraphFromWikiPages,
+  getKeyByValue,
 };
