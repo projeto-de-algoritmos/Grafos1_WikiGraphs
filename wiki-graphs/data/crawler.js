@@ -1,76 +1,48 @@
-const {
-  writeMapToFile,
-  fetchUrl,
-  getGraphFromWikiPages,
-  getKeyByValue,
-} = require('./utils');
+const { writeMapToFile, fetchUrl } = require('./utils');
 
-let totalLinks = 0;
-const TOAL_LINKS_INSIDE = 10;
+let count = 0;
+const MAXPAGES = Number(process.argv[2]);
 const baseURL = 'https://pt.wikipedia.org';
-const graphTitleWikiPages = new Map();
-const mapTitlesToLinks = new Map();
+const graphWikiPages = new Map();
 
 const scrapeInit = async () => {
-  await scrapeWiki('/wiki/Wikipédia');
+  const encodedURL = encodeURI('/wiki/Wikipédia');
 
-  writeMapToFile('graph_titles', graphTitleWikiPages);
-  writeMapToFile('titles_links', mapTitlesToLinks);
+  const wikipediaTitle = 'Wikipédia';
+  graphWikiPages.set(wikipediaTitle, { href: encodedURL, links: [] });
+  await scrapeWiki(wikipediaTitle, encodedURL);
 
-  graphTitleWikiPages.forEach((value, key) => {
-    // console.log(value);
-    if (Array.isArray(value) && value.length > 0) console.log(key);
-  });
+  writeMapToFile('graph_titles', graphWikiPages);
 };
 
-const scrapeWiki = async path => {
-  const promises = [];
-  if (totalLinks > TOAL_LINKS_INSIDE) {
-    console.log(
-      `------------------------------------ SAINDO[${totalLinks}]...`,
-    );
-    return;
-  }
+const scrapeWiki = async (pageTitle, pageURL) => {
+  count += 1;
 
-  const $ = await fetchUrl(`${baseURL}${path}`);
+  const $ = await fetchUrl(baseURL + pageURL);
   if ($ === null) return;
-
-  const links = $('.mw-parser-output a');
-
-  const filteredLinks = getGraphFromWikiPages(
-    getKeyByValue(mapTitlesToLinks, path),
-    links,
-    graphTitleWikiPages,
-    mapTitlesToLinks,
-  );
-
-  filteredLinks.forEach(async link => {
-    promises.push(scrapeWiki(link));
-  });
-
-  totalLinks += 1;
-  console.log(totalLinks);
-  await Promise.all(promises);
-};
-
-// scrapeInit();
-
-const scrapeWikiPage = async pageUrl => {
-  const { data } = await axios.get(baseURL + pageUrl);
-  const $ = cheerio.load(data);
 
   const pageHyperlinks = [];
   $('#mw-content-text a:not(.image)').each((idx, el) => {
     const { title, href } = el.attribs;
 
     if (title && href.startsWith('/wiki/')) {
-      pageHyperlinks.push({ title, link: href });
+      graphWikiPages.get(pageTitle).links.push(title);
+
+      if (!graphWikiPages.has(title)) {
+        graphWikiPages.set(title, { href, links: [] });
+        pageHyperlinks.push({ title, href });
+      }
     }
   });
 
-  return pageHyperlinks;
+  const promises = [];
+  pageHyperlinks.forEach(async ({ title, href }) => {
+    if (count < MAXPAGES) {
+      promises.push(scrapeWiki(title, href));
+    }
+  });
+
+  await Promise.all(promises);
 };
 
-module.exports = {
-  scrapeWikiPage,
-};
+scrapeInit();
