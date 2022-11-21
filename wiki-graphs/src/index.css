@@ -1,13 +1,144 @@
-body {
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
+  outline: 0;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+html {
+  /* 1rem = 10px, 10px(target)/16px(browser-default) = 62.5% */
+  font-size: 62.5%;
+}
+
+body, input, button {
+  font-family: 'Poppins', 'Montserrat', sans-serif;
+  /* background-color: $#000; */
+  transition: background-color .3s;
+}
+
+button {
+  cursor: pointer;
+  /* font-size: 1.6rem; */
+  background: none;
+  border: 0;
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 7em;
+  background-color: #000000;
+  font-family: 'Russo One', sans-serif;
+}
+
+#app-name {
+  font-size: 3.5rem;
+  color: #3af700;
+  text-shadow: 0 0 20px #3af700;
+  /* font-weight: bold; */
+}
+
+#content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 7em);
+  /* background-color: blue; */
+}
+
+#select-group {
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+
+  padding: 1.5rem;
+  background-color: #3af700;
+  border-radius:  5px;
+  box-shadow: 0 0 50px #3af700;
+}
+
+#input-container {
+  width: 40rem;
+  display: flex;
+  flex-direction: column;
+}
+
+#input-container strong {
+  font-size: 2.5rem;
+  color: #000000ad;
+  margin-bottom: .5rem;
+}
+
+#input-container + #input-container {
+  margin-left: 20px;
+}
+
+/****************************************/
+
+.select-option__control {
+  background-color: #c4c4c4;
+  border: 0;
+  border-radius: 10px;
+  transition: none;
+}
+.select-option__placeholder,
+.select-option__single-value,
+.select-option__input input,
+.select-option__input-container {
+  /* font-family: 'Montserrat', sans-serif; */
+  font-weight: 400;
+  height: 4rem;
+  padding: .5rem;
+
+  font-size: 1.8rem;
+  color: #231f20;
+}
+.select-option__indicator {
+  color: #fff;
+}
+.select-option__menu {
+  background-color: #c4c4c4;
+  border: 0;
+  box-shadow: 0px 4px 20px rgb(0 0 0 / 25%);
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: gray;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #F6F8FA;
 }
