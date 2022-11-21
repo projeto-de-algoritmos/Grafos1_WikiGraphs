@@ -1,26 +1,25 @@
-const { scrapeWikiPage } = require('./crawler');
+import json from './dump/graph_titles.json';
 
 const findWikiPathWithBFS = async (startPageTitle, endPageTitle) => {
-  const startNode = {
-    title: startPageTitle,
-    link: encodeURI(`/wiki/${startPageTitle}`),
-  };
-  const bfsQueue = [[startNode, [startNode]]];
+  const data = new Map(Object.entries(json));
+  const bfsQueue = [[startPageTitle, [startPageTitle]]];
 
   while (bfsQueue.length) {
-    const [node, path] = bfsQueue.shift();
+    const [title, path] = bfsQueue.shift();
 
-    const pageHyperlinks = await scrapeWikiPage(node.link);
-    for (const page of pageHyperlinks) {
-      const newPath = path.concat(page);
-      if (page.title === endPageTitle) {
+    const linkedPages = data.get(title).links;
+    for (const pageTitle of linkedPages) {
+      const newPath = path.concat(pageTitle);
+      if (pageTitle === endPageTitle) {
         console.log(newPath);
         return newPath;
       }
 
-      bfsQueue.push([page, newPath]);
+      bfsQueue.push([pageTitle, newPath]);
     }
   }
+
+  return [];
 };
 
-findWikiPathWithBFS('Wikipédia', 'Nome próprio');
+findWikiPathWithBFS('Wikipédia', 'Prenome');
