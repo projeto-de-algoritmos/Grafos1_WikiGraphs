@@ -19,7 +19,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "crawler": "node data/crawler.js"
+    "crawler": "node src/data/crawler.js"
   },
   "eslintConfig": {
     "extends": [
