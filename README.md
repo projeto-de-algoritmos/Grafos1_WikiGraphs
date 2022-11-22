@@ -17,7 +17,7 @@ O WikiGraphs é uma aplicação web que possui como objetivo apresentar o menor 
 ## Link da apresentação
 
 **Adicione a apresentação do projeto.**
-[Apresentação](./apresentacao-LucasHerick.mp4)
+[Apresentação](./assets/apresentacao-LucasHerick.mp4)
 
 ## Screenshots
 
