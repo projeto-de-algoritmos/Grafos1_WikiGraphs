@@ -25,7 +25,7 @@ const scrapeWiki = async (pageTitle, pageURL) => {
   $('#mw-content-text a:not(.image)').each((idx, el) => {
     const { title, href } = el.attribs;
 
-    if (title && href.startsWith('/wiki/')) {
+    if (title && href && href.startsWith('/wiki/')) {
       graphWikiPages.get(pageTitle).links.push(title);
 
       if (!graphWikiPages.has(title)) {

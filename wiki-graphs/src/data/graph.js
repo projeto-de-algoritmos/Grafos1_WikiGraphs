@@ -1,6 +1,6 @@
-import json from './dump/graph_titles.json';
+import json from './dump/10k.json';
 
-const findWikiPathWithBFS = async (startPageTitle, endPageTitle) => {
+const findWikiPathWithBFS = (startPageTitle, endPageTitle) => {
   const data = new Map(Object.entries(json));
   const bfsQueue = [[startPageTitle, [startPageTitle]]];
 
@@ -11,7 +11,6 @@ const findWikiPathWithBFS = async (startPageTitle, endPageTitle) => {
     for (const pageTitle of linkedPages) {
       const newPath = path.concat(pageTitle);
       if (pageTitle === endPageTitle) {
-        console.log(newPath);
         return newPath;
       }
 
@@ -22,4 +21,4 @@ const findWikiPathWithBFS = async (startPageTitle, endPageTitle) => {
   return [];
 };
 
-findWikiPathWithBFS('Wikipédia', 'Prenome');
+export default findWikiPathWithBFS;
