@@ -24,6 +24,8 @@ O WikiGraphs é uma aplicação web que possui como objetivo apresentar o menor 
 **Adicione 3 ou mais screenshots do projeto em funcionamento.**
 ![Imagem 1](./assets/exemplo1.png)
 ![Imagem 2](./assets/exemplo2.png)
+![Imagem 3](./assets/exemplo3.png)
+![Imagem 4](./assets/exemplo4.png)
 
 ## Instalação
 
