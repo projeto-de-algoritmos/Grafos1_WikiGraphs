@@ -17,7 +17,7 @@ O WikiGraphs é uma aplicação web que possui como objetivo apresentar o menor 
 ## Link da apresentação
 
 **Adicione a apresentação do projeto.**
-[Apresentação](./apresentacao-LucasHerick.mp4)
+[Apresentação](./assets/apresentacao-LucasHerick.mp4)
 
 ## Screenshots
 
@@ -66,7 +66,7 @@ npm start
 
 ### 4. Extra: Crawler
 
-Atualmente, o projeto está rodando com uma base de dados com cerca de 134 mil páginas mapeadas, mas apenas 10 mil destas foram percorridas pelo crawler para "extrair" os links. O repositório também possui versões com 30k, 50k e 100k páginas percorridas e ainda mais mapeadas (encontradas em ```src/data/dump/```). Para utilizá-las, basta alterar o import em ```src/App.js``` e ```src/data/graph.js``` substituindo pelo arquivo desejado **(Obs: Essas mudanças podem acarretar em problemas de performance, devido ao tamanho dos arquivos)**. Além disso, caso queira rodar o crawler para uma quantidade diferente de páginas basta utilizar o comando abaixo (substituindo QTD_PAGE pela quantidade desejada):
+Atualmente, o projeto está rodando com uma base de dados com cerca de 134 mil páginas mapeadas, mas apenas 10 mil destas foram percorridas pelo crawler para "extrair" os links. Além disso, caso queira rodar o crawler para uma quantidade diferente de páginas basta utilizar o comando abaixo (substituindo <QTD_PAGE> pela quantidade desejada):
 
 ```bash
 yarn crawler <QTD_PAGE>
